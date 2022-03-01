@@ -8,26 +8,76 @@ const ccicon = document.getElementById('ccicon');
 const ccsingle = document.getElementById('ccsingle');
 const generatecard = document.getElementById('generatecard');
 
-
-let numeros
-
 const svgname=document.getElementById('svgname');
 const svgnumber=document.getElementById('svgnumber');
+const svgexpire=document.getElementById('svgexpire');
+const svgsecurity=document.getElementById('svgsecurity');
 //tracking in live the data in the input 
+// const regex=/^[0-9]+$/;
+const regex=[0-9,'/',',','+']
 nome.addEventListener('input',(e)=>{
+    // if(e.target.value.length>0){
+    // }
+    // if(nome.checkValidity()){
+    //     // prevVal = this.value;
+    //     console.log("intupt is a letter")
+    //   } else {
+    //     // this.value = prevVal;
+    //     console.log("intupt is a letter")
+    //   }
+    if(regex.includes(e.target.vale)){
+        console.log("input include number")
+    }
     svgname.textContent=`${e.target.value}`
     svgname.textContent===``?svgname.textContent='JOHN DOE':'';
+    // if(isNaN(e.target.value)){
+    //     console.log("intupt is a letter")
+    // }else{
+    //     console.log("intupt is not a letter")
+    // }
 })
 
 cardnumber.addEventListener('input',(e)=>{
     // isNaN(e.target.value)?alert():'' to see if the input is a number
-    numeros=`${e.target.value}`
     svgnumber.textContent=`
-    ${numeros.slice(0,4)} ${numeros.slice(4,8)} ${numeros.slice(8,12)} ${numeros.slice(12,16)}
+    ${e.target.value.slice(0,4)} 
+    ${e.target.value.slice(4,8)} 
+    ${e.target.value.slice(8,12)} 
+    ${e.target.value.slice(12,16)}
     `;
     e.target.value===``?svgnumber.textContent='0123 4567 8910 1112':'';
 
 })
+let testMes;
+let testDia;
+const dias=[
+    '01','02','03','04',
+    '05','06','07','08',
+    '09','10','11','12',
+    '13','14','15','16',
+    '17','18','19','20',
+    '21','22','23','24',
+    '25','26','27','28',
+    '29','30','31',
+];
+const messes=[
+    '01','02','03','04',
+    '05','06','07','08',
+    '09','10','11','12',
+];
+expirationdate.addEventListener('input',(e)=>{
+    svgexpire.textContent=`
+    ${e.target.value.slice(0,2)}/${e.target.value.slice(2,4)}
+    `;
+    if(e.target.value.length===4){
+        testMes=messes.includes(e.target.value.slice(0,2))
+        testDia=dias.includes(e.target.value.slice(2,4))
+        testMes?'':console.log('mes invalido')
+        testDia?'':console.log('dia invalido')
+    }
+    e.target.value===``?svgexpire.textContent='01/23':'';
+});
+
 //Generate random card number from list of known test numbers
 const randomCard = function () {
     let testCards = [
@@ -46,7 +96,7 @@ const randomCard = function () {
     svgnumber.textContent=`
     ${numeros.slice(0,4)} ${numeros.slice(4,8)} ${numeros.slice(8,12)} ${numeros.slice(12,16)}
     `;
-}
+};
 generatecard.addEventListener('click', function () {
     randomCard();
 });
