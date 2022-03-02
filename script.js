@@ -100,3 +100,30 @@ const randomCard = function () {
 generatecard.addEventListener('click', function () {
     randomCard();
 });
+// CREDIT CARD IMAGE JS
+document.querySelector('.preload').classList.remove('preload');
+document.querySelector('.creditcard').addEventListener('click', function () {
+    if (this.classList.contains('flipped')) {
+        this.classList.remove('flipped');
+    } else {
+        this.classList.add('flipped');
+    }
+})
+
+
+//On Focus Events
+nome.addEventListener('focus', function () {
+    document.querySelector('.creditcard').classList.remove('flipped');
+});
+
+cardnumber.addEventListener('focus', function () {
+    document.querySelector('.creditcard').classList.remove('flipped');
+});
+
+expirationdate.addEventListener('focus', function () {
+    document.querySelector('.creditcard').classList.remove('flipped');
+});
+
+securitycode.addEventListener('focus', function () {
+    document.querySelector('.creditcard').classList.add('flipped');
+});
