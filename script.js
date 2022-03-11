@@ -3,39 +3,33 @@ const nome = document.getElementById('nome');
 const cardnumber = document.getElementById('cardnumber');
 const expirationdate = document.getElementById('expirationdate');
 const securitycode = document.getElementById('securitycode');
-const output = document.getElementById('output');
-const ccicon = document.getElementById('ccicon');
-const ccsingle = document.getElementById('ccsingle');
 const generatecard = document.getElementById('generatecard');
+
+// const output = document.getElementById('output');
+// const ccicon = document.getElementById('ccicon');
+// const ccsingle = document.getElementById('ccsingle');
 
 const svgname=document.getElementById('svgname');
 const svgnumber=document.getElementById('svgnumber');
 const svgexpire=document.getElementById('svgexpire');
 const svgsecurity=document.getElementById('svgsecurity');
+const svgnameback=document.getElementById('svgnameback');
+
 //tracking in live the data in the input 
 // const regex=/^[0-9]+$/;
+
 const regex=[0-9,'/',',','+']
 nome.addEventListener('input',(e)=>{
-    // if(e.target.value.length>0){
+    // needs to find a way to allow just leters
+    // if(regex.includes(e.target.vale)){
+    //     console.log("input include number")
     // }
-    // if(nome.checkValidity()){
-    //     // prevVal = this.value;
-    //     console.log("intupt is a letter")
-    //   } else {
-    //     // this.value = prevVal;
-    //     console.log("intupt is a letter")
-    //   }
-    if(regex.includes(e.target.vale)){
-        console.log("input include number")
-    }
     svgname.textContent=`${e.target.value}`
+    svgnameback.textContent=`${e.target.value}`
     svgname.textContent===``?svgname.textContent='JOHN DOE':'';
-    // if(isNaN(e.target.value)){
-    //     console.log("intupt is a letter")
-    // }else{
-    //     console.log("intupt is not a letter")
-    // }
+    svgnameback.textContent===""?svgnameback.textContent='JOHN DOE':'';
 })
+
 
 cardnumber.addEventListener('input',(e)=>{
     // isNaN(e.target.value)?alert():'' to see if the input is a number
@@ -78,6 +72,11 @@ expirationdate.addEventListener('input',(e)=>{
     e.target.value===``?svgexpire.textContent='01/23':'';
 });
 
+securitycode.addEventListener("input",(e)=>{
+    svgsecurity.textContent=e.target.value
+    e.target.value===``?svgsecurity.textContent="985":"";
+
+});
 //Generate random card number from list of known test numbers
 const randomCard = function () {
     let testCards = [
