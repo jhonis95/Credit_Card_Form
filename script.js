@@ -5,43 +5,44 @@ const expirationdate = document.getElementById('expirationdate');
 const securitycode = document.getElementById('securitycode');
 const generatecard = document.getElementById('generatecard');
 
-// const output = document.getElementById('output');
-// const ccicon = document.getElementById('ccicon');
-// const ccsingle = document.getElementById('ccsingle');
-
 const svgname=document.getElementById('svgname');
 const svgnumber=document.getElementById('svgnumber');
 const svgexpire=document.getElementById('svgexpire');
 const svgsecurity=document.getElementById('svgsecurity');
 const svgnameback=document.getElementById('svgnameback');
 
-//tracking in live the data in the input 
-// const regex=/^[0-9]+$/;
-
-const regex=[0-9,'/',',','+']
+function isOnlyLetters(str) {
+    return /^[A-Za-z ]*$/.test(str);
+  }
+  
 nome.addEventListener('input',(e)=>{
-    // needs to find a way to allow just leters
-    // if(regex.includes(e.target.vale)){
-    //     console.log("input include number")
-    // }
-    svgname.textContent=`${e.target.value}`
-    svgnameback.textContent=`${e.target.value}`
-    svgname.textContent===``?svgname.textContent='JOHN DOE':'';
-    svgnameback.textContent===""?svgnameback.textContent='JOHN DOE':'';
+    if(isOnlyLetters(e.target.value)){
+        nome.style.color="black"
+        svgname.textContent=`${e.target.value}`
+        svgnameback.textContent=`${e.target.value}`
+        svgname.textContent===``?svgname.textContent='JOHN DOE':'';
+        svgnameback.textContent===""?svgnameback.textContent='JOHN DOE':'';
+    }else{
+        nome.style.color="red"
+    }
 })
-
-
 cardnumber.addEventListener('input',(e)=>{
-    // isNaN(e.target.value)?alert():'' to see if the input is a number
-    svgnumber.textContent=`
-    ${e.target.value.slice(0,4)} 
-    ${e.target.value.slice(4,8)} 
-    ${e.target.value.slice(8,12)} 
-    ${e.target.value.slice(12,16)}
-    `;
-    e.target.value===``?svgnumber.textContent='0123 4567 8910 1112':'';
+    let cardNumberOnCard=e.target.value;
 
+    e.target.value===``?svgnumber.textContent='0123 4567 8910 1112':checkNumber(svgnumber,cardnumber,cardNumberOnCard);
 })
+const checkNumber=(card,inputUI,inputValue)=>{
+    if(/^[0-9]*$/.test(inputValue)){
+        inputUI.style.color="black"
+        card==svgnumber?card.textContent=organizeOutput(inputValue):card.textContent=inputValue
+    }else{
+        inputUI.style.color="red"
+    }
+}
+const organizeOutput=(input)=>{
+    let valueToShow=`${input.slice(0,4)} ${input.slice(4,8)} ${input.slice(8,12)} ${input.slice(12,16)}`
+    return valueToShow
+}
 let testMes;
 let testDia;
 const dias=[
@@ -60,22 +61,19 @@ const messes=[
     '09','10','11','12',
 ];
 expirationdate.addEventListener('input',(e)=>{
-    svgexpire.textContent=`
-    ${e.target.value.slice(0,2)}/${e.target.value.slice(2,4)}
-    `;
+    let cardDate=`${e.target.value.slice(0,2)}/${e.target.value.slice(2,4)}`
     if(e.target.value.length===4){
         testMes=messes.includes(e.target.value.slice(0,2))
         testDia=dias.includes(e.target.value.slice(2,4))
-        testMes?'':console.log('mes invalido')
-        testDia?'':console.log('dia invalido')
+        isValidDate(testDia,testMes)
     }
-    e.target.value===``?svgexpire.textContent='01/23':'';
+    e.target.value===``?svgexpire.textContent='01/23':svgexpire.textContent=cardDate;
 });
-
+const isValidDate=(day,month)=>{
+    day==false||month==false?expirationdate.style.color="red":expirationdate.style.color="black";
+}
 securitycode.addEventListener("input",(e)=>{
-    svgsecurity.textContent=e.target.value
-    e.target.value===``?svgsecurity.textContent="985":"";
-
+    e.target.value===``?svgsecurity.textContent="985":checkNumber(svgsecurity,securitycode,e.target.value);
 });
 //Generate random card number from list of known test numbers
 const randomCard = function () {
@@ -92,9 +90,8 @@ const randomCard = function () {
     let randomNumber = Math.floor(Math.random() * testCards.length);
     cardnumber.value= testCards[randomNumber];
     numeros=cardnumber.value
-    svgnumber.textContent=`
-    ${numeros.slice(0,4)} ${numeros.slice(4,8)} ${numeros.slice(8,12)} ${numeros.slice(12,16)}
-    `;
+    let randomNumberToCard=`${numeros.slice(0,4)} ${numeros.slice(4,8)} ${numeros.slice(8,12)} ${numeros.slice(12,16)}`
+    svgnumber.textContent=randomNumberToCard;
 };
 generatecard.addEventListener('click', function () {
     randomCard();
